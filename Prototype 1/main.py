@@ -62,6 +62,21 @@ def textInputPrint():
         print(f'Text number {i} - {textInputs[i]}')
 
 
+def outputToFrame():
+    global textInputs
+
+    for widget in outputFrameContents.winfo_children():
+            widget.destroy()
+
+
+    for i in range(len(textInputs)):
+        if textInputs[i] == "":
+            tk.Label(outputFrameContents, text="No input").pack()
+        else:
+            tk.Label(outputFrameContents, text=textInputs[i]).pack()
+        
+        
+
 # Elements present in window
 
 tk.Label(root, text="Hello").pack()
@@ -74,6 +89,23 @@ textBoxInsert.pack()
 
 textPrint = tk.Button(root, text="Print text", command=textInputPrint)
 textPrint.pack()
+
+outputButton = tk.Button(root, text="Output", command=outputToFrame)
+outputButton.pack()
+
+
+# Output frame
+
+outputFrame = tk.Frame(root)
+outputFrame.pack(pady=50)
+
+outputFrameTitleFrame = tk.Frame(outputFrame)
+
+outputFrameTitle = tk.Label(outputFrameTitleFrame, text="Output:")
+outputFrameTitle.pack()
+
+outputFrameContents = tk.Frame(outputFrame)
+outputFrameContents.pack()
 
 #Running the program
 
