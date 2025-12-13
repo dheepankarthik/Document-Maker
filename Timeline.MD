@@ -11,3 +11,9 @@ Created functionality for a popup text input. Need to add other types of input (
 12.12.2025 
 
 Prepared a frame for displaying the text inputs. Need to figure out a way to allow all types of input, and creating a method where the user can delete the non-required parts of his input. 
+
+13.12.2025
+
+As 'Prototype 1'/main.py has become more complex to allow for any new required changes, main2.py will hereby serve as the primary file for the app using the Python Tkinter module.
+
+Do note that C++ and C# will be used to create the app, should Tkinter does not prove to be helpful in creating the app due to its limitations. Hence, the folders "Prototype 2 (C++)" and "Prototype 3 (C#)" will be used too.
