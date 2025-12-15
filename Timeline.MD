@@ -17,3 +17,13 @@ Prepared a frame for displaying the text inputs. Need to figure out a way to all
 As 'Prototype 1'/main.py has become more complex to allow for any new required changes, main2.py will hereby serve as the primary file for the app using the Python Tkinter module.
 
 Do note that C++ and C# will be used to create the app, should Tkinter does not prove to be helpful in creating the app due to its limitations. Hence, the folders "Prototype 2 (C++)" and "Prototype 3 (C#)" will be used too.
+
+15.12.2025
+
+Added functionalities for scrollable output frame in main2.py.
+
+Here is a list of the role of each folder:
+
+Prototype 1 (Python), Prototype 2 (C++), Prototype 3 (C#) is for the Python code, C++ code and C# code respectively.
+
+Kindly ignore the 09.12.2025 notes.
