@@ -27,3 +27,7 @@ Here is a list of the role of each folder:
 Prototype 1 (Python), Prototype 2 (C++), Prototype 3 (C#) is for the Python code, C++ code and C# code respectively.
 
 Kindly ignore the 09.12.2025 notes.
+
+19.12.2025 
+
+PySide 6 has been used in main3.py. This has been done as there are issues with Tkinter.
