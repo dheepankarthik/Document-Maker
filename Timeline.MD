@@ -33,3 +33,7 @@ Kindly ignore the 09.12.2025 notes.
 PySide 6 has been used in main3.py. This has been done as there are issues with Tkinter.
 
 Title label added in main3.py.
+
+21.12.2025 
+
+Layouts according to Plan.png have been added in main3.py. Need to figure out borders.
