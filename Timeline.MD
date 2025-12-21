@@ -37,3 +37,7 @@ Title label added in main3.py.
 21.12.2025 
 
 Layouts according to Plan.png have been added in main3.py. Need to figure out borders.
+
+No need to add borders. Colors configured in main3.py.
+
+Go signal for adding child components
