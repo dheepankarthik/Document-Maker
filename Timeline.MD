@@ -41,3 +41,7 @@ Layouts according to Plan.png have been added in main3.py. Need to figure out bo
 No need to add borders. Colors configured in main3.py.
 
 Go signal for adding child components
+
+24.12.2025
+
+Text box button and functionality successfully configured.
