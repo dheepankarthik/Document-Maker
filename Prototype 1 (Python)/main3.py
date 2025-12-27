@@ -1,7 +1,12 @@
 import PySide6
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout, QSizePolicy, QFrame, QLineEdit, QPushButton, QTextEdit, QScrollArea
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import ( QApplication, QWidget, QLabel, QVBoxLayout, 
+QHBoxLayout, QSizePolicy, QFrame, QLineEdit, QPushButton, QTextEdit, QScrollArea,
+QGraphicsView, QGraphicsScene, QGraphicsTextItem, QFileDialog, QGraphicsPixmapItem, QGraphicsRectItem)
+
+from PySide6.QtGui import QFont, QPixmap, QColor
+
+from PySide6.QtCore import Qt, QRectF, QPointF
 
 app = QApplication(sys.argv)
 
@@ -110,6 +115,15 @@ workspaceScrollArea.setWidget(workspaceScrollAreaWidget)
 
 workspaceScrollAreaInternalLayout = QVBoxLayout(workspaceScrollAreaWidget)
 
+workspaceScene = QGraphicsScene()
+workspaceScene.setSceneRect(0, 0, 600, 400)
+
+workspaceCanvas = QGraphicsView(workspaceScene)
+workspaceCanvas.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+workspaceCanvas.setStyleSheet("background-color: #ffffff")
+
+workspaceScrollAreaInternalLayout.addWidget(workspaceCanvas)
+
 
 #Styling 
 
@@ -146,8 +160,8 @@ QLabel {
 }
                           
 QPushButton {
-                          margin-top: 50px;
-                          margin-bottom: 50px;
+                          margin-top: 45px;
+                          margin-bottom: 45px;
                           padding: 5px;
 }
 """)
@@ -177,34 +191,34 @@ textBoxButton = QPushButton("Text Box")
 buttonLayout.addWidget(textBoxButton)
 
 def addTextBox():
-    global workspaceScrollAreaInternalLayout
+    global workspaceScene
+
+    textItem = QGraphicsTextItem("Add text")
+
+    textItem.setFont(QFont("Times New Roman", 14))
+    textItem.setDefaultTextColor(Qt.black)
     
-    textBoxToAdd = QTextEdit()
-    textBoxToAdd.setPlaceholderText("Add text")
-    textBoxToAdd.setMinimumHeight(200)
-    textBoxToAdd.setSizePolicy(
-    QSizePolicy.Expanding,
-    QSizePolicy.Fixed 
-    )
-    textBoxToAdd.setStyleSheet(""" QTextEdit {background-color: white} """)
 
-    def deleteTextBox(frame):
-        frame.setParent(None)
-        frame.deleteLater()
+    textItem.setTextInteractionFlags(Qt.TextEditorInteraction)
 
+    textItem.setFlag(QGraphicsTextItem.ItemIsMovable, True)
     
-    textBoxFrame = QFrame()
-    textBoxLayout = QVBoxLayout(textBoxFrame)
+    textItem.setFlag(QGraphicsTextItem.ItemIsSelectable, True)
 
-    deleteButton = QPushButton("Delete Text Box")
-    deleteButton.clicked.connect(lambda: deleteTextBox(textBoxFrame))
-    deleteButton.setMaximumHeight(50)
+    textItem.setPos(50, 50)
 
-    textBoxLayout.addWidget(textBoxToAdd)
-    textBoxLayout.addWidget(deleteButton)
+    textItem.setTextWidth(300)
 
-    
-    workspaceScrollAreaInternalLayout.addWidget(textBoxFrame)
+    workspaceScene.addItem(textItem)
+
+def deleteSelectedItems():
+    for item in workspaceScene.selectedItems():
+        workspaceScene.removeItem(item)
+
+# ---------------- Keyboard Delete ----------------
+def keyPressEvent(event):
+    if event.key() == Qt.Key_Delete:
+        deleteSelectedItems()
 
 textBoxButton.clicked.connect(addTextBox)
 
@@ -218,6 +232,138 @@ textBoxButton.setStyleSheet("""
 
 ## End of Text Box Button & Styling
 
+## Start of Image Button & Styling
+
+imageButton = QPushButton("Add an image")
+
+buttonLayout.addWidget(imageButton)
+
+currentImageItem = None
+
+# Function for adding an image
+
+def updateHandles(imageItem):
+    r = imageItem.boundingRect()
+    imageItem.handles["tl"].setPos(r.topLeft())
+    imageItem.handles["tr"].setPos(r.topRight())
+    imageItem.handles["bl"].setPos(r.bottomLeft())
+    imageItem.handles["br"].setPos(r.bottomRight())
+
+def resizeFromHandle(imageItem, corner, pos):
+    rect = QRectF(imageItem.boundingRect())
+
+    if corner == "br":
+        rect.setBottomRight(pos)
+    elif corner == "tr":
+        rect.setTopRight(pos)
+    elif corner == "bl":
+        rect.setBottomLeft(pos)
+    elif corner == "tl":
+        rect.setTopLeft(pos)
+
+    if rect.width() < 30 or rect.height() < 30:
+        return
+
+    ratio = imageItem.originalPixmap.width() / imageItem.originalPixmap.height()
+    rect.setHeight(rect.width() / ratio)
+
+    scaled = imageItem.originalPixmap.scaled(
+        rect.size().toSize(),
+        Qt.KeepAspectRatio,
+        Qt.SmoothTransformation
+    )
+
+    imageItem.setPixmap(scaled)
+    updateHandles(imageItem)
+
+
+def addImage():
+
+    global workspaceScene
+
+    filePath, _ = QFileDialog.getOpenFileName(
+        window,
+        "Select Image",
+        "",
+        "Images (*.png *.jpg *.jpeg *.bmp)"
+    )
+
+    if not filePath:
+        return
+    
+    pixmap = QPixmap(filePath)
+
+    imageItem = QGraphicsPixmapItem(pixmap)
+
+    imageItem.setFlag(QGraphicsPixmapItem.ItemIsMovable, True)
+    imageItem.setFlag(QGraphicsPixmapItem.ItemIsSelectable, True)
+
+    imageItem.setPos(100, 100)
+    workspaceScene.addItem(imageItem)
+
+    imageItem.handles = {}
+
+    for corner in ("tl", "tr", "bl", "br"):
+        handle = QGraphicsRectItem(-5, -5, 10, 10, imageItem)
+        handle.setBrush(QColor("blue"))
+        handle.setFlag(QGraphicsRectItem.ItemIsMovable, True)
+        handle.setFlag(QGraphicsRectItem.ItemSendsScenePositionChanges, True)
+        handle.corner = corner
+
+        # Monkey-patch itemChange
+        def itemChange(change, value, h=handle):
+            if change == QGraphicsRectItem.ItemPositionChange:
+                resizeFromHandle(imageItem, h.corner, value)
+                return QPointF(0, 0)
+            return QGraphicsRectItem.itemChange(h, change, value)
+
+        handle.itemChange = itemChange
+        imageItem.handles[corner] = handle
+
+    updateHandles(imageItem)
+
+def updateSelection():
+    global currentImageItem
+    currentImageItem = None
+
+    for item in workspaceScene.selectedItems():
+        if isinstance(item, QGraphicsPixmapItem):
+            currentImageItem = item
+            break
+
+def deleteSelectedImage():
+    for item in workspaceScene.selectedItems():
+        if isinstance(item, QGraphicsPixmapItem):
+            workspaceScene.removeItem(item)
+
+# ---------------- Mouse Wheel Resize ----------------
+def wheelEvent(event):
+    global currentImageItem
+
+    if currentImageItem:
+        factor = 1.1 if event.angleDelta().y() > 0 else 0.9
+        newScale = currentImageItem.scale() * factor
+        newScale = max(0.2, min(newScale, 5.0))  # clamp
+        currentImageItem.setScale(newScale)
+    else:
+        QGraphicsView.wheelEvent(workspaceCanvas, event)
+
+workspaceCanvas.wheelEvent = wheelEvent
+
+# ---------------- Keyboard Delete ----------------
+def keyPressEvent(event):
+    if event.key() == Qt.Key_Delete:
+        deleteSelectedImage()
+
+window.keyPressEvent = keyPressEvent
+
+imageButton.clicked.connect(addImage)
+workspaceScene.selectionChanged.connect(updateSelection)
+
+
+
+
+## End of Image Button & Styling
 
 buttonLayout.addStretch()
 

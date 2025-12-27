@@ -45,3 +45,9 @@ Go signal for adding child components
 24.12.2025
 
 Text box button and functionality successfully configured.
+
+27.12.2025 
+
+Image functionality added in main3.py. 
+
+Tried to modularize main3.py, but app is crashing. Need to figure out the errors.
