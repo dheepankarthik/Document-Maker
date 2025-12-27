@@ -1,6 +1,6 @@
 def apply_styles(titleFrame, buttonFrame, workspaceFrame):
     titleFrame.setStyleSheet("""
-        QLabel { font-size: 30px; font-family: Dosis; }
+        QLabel { font-size: 30px; font-family: Dosis; background-color: #EFD6AC; padding: 10px}
     """)
 
     buttonFrame.setStyleSheet("""
@@ -9,6 +9,7 @@ def apply_styles(titleFrame, buttonFrame, workspaceFrame):
             margin-bottom: 45px;
             padding: 5px;
         }
+                              
     """)
 
     workspaceFrame.setStyleSheet("""

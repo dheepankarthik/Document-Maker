@@ -4,7 +4,8 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
-import globals, styles
+import globals
+import styles
 
 def build_ui(window):
     mainLayout = QVBoxLayout(window)
@@ -21,15 +22,14 @@ def build_ui(window):
     buttonFrame = QFrame()
     workspaceFrame = QFrame()
 
-    bodyLayout.addWidget(buttonFrame, 2)
-    bodyLayout.addWidget(workspaceFrame, 8)
+    bodyLayout.addWidget(buttonFrame, stretch=4)
+    bodyLayout.addWidget(workspaceFrame, stretch=12)
 
     mainLayout.addWidget(titleFrame)
     mainLayout.addWidget(bodyFrame)
 
-    # Workspace
     workspaceLayout = QVBoxLayout(workspaceFrame)
-    workspaceLabel = QLabel("Work Space")
+    workspaceLabel = QLabel("Work\nSpace")
     workspaceLabel.setAlignment(Qt.AlignHCenter)
     workspaceLayout.addWidget(workspaceLabel)
 
@@ -49,9 +49,7 @@ def build_ui(window):
 
     scrollLayout.addWidget(globals.workspaceCanvas)
 
-    styles.apply_styles(titleFrame, buttonFrame, workspaceFrame)
-
+    styles.apply_styles(titleFrame=titleFrame, buttonFrame=buttonFrame, workspaceFrame=workspaceFrame)
 
     return buttonFrame
-
 
