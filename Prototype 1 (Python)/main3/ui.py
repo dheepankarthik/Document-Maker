@@ -3,9 +3,13 @@ from PySide6.QtWidgets import (
     QFrame, QScrollArea, QGraphicsView, QGraphicsScene
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor
+from PySide6.QtGui import QColor, QFont
 import globals
 import styles
+
+
+from PySide6.QtGui import QFontDatabase
+
 
 def build_ui(window):
     mainLayout = QVBoxLayout(window)
@@ -46,6 +50,8 @@ def build_ui(window):
     globals.workspaceCanvas = QGraphicsView(globals.workspaceScene)
     globals.workspaceCanvas.setAlignment(Qt.AlignTop | Qt.AlignLeft)
     globals.workspaceCanvas.setStyleSheet("background-color: white")
+
+    globals.workspaceCanvas.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
     scrollLayout.addWidget(globals.workspaceCanvas)
 
