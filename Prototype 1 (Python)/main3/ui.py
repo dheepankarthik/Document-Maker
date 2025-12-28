@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QWidget, QLabel, QVBoxLayout, QHBoxLayout,
-    QFrame, QScrollArea, QGraphicsView, QGraphicsScene
+    QFrame, QScrollArea, QGraphicsView, QGraphicsScene, QSizePolicy
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QFont
@@ -39,23 +39,28 @@ def build_ui(window):
 
     scrollArea = QScrollArea()
     scrollArea.setWidgetResizable(True)
+    # scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
     workspaceLayout.addWidget(scrollArea)
 
     scrollWidget = QWidget()
     scrollArea.setWidget(scrollWidget)
 
     scrollLayout = QVBoxLayout(scrollWidget)
+    scrollLayout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft)
 
-    globals.workspaceScene = QGraphicsScene(0, 0, 600, 400)
+    globals.workspaceScene = QGraphicsScene()
     globals.workspaceCanvas = QGraphicsView(globals.workspaceScene)
     globals.workspaceCanvas.setAlignment(Qt.AlignTop | Qt.AlignLeft)
     globals.workspaceCanvas.setStyleSheet("background-color: white")
-
     globals.workspaceCanvas.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+    globals.workspaceCanvas.setFocus()
+
+
 
     scrollLayout.addWidget(globals.workspaceCanvas)
 
     styles.apply_styles(titleFrame=titleFrame, buttonFrame=buttonFrame, workspaceFrame=workspaceFrame)
 
     return buttonFrame
+
 

@@ -1,6 +1,8 @@
+
+
 def apply_styles(titleFrame, buttonFrame, workspaceFrame):
     titleFrame.setStyleSheet("""
-        QLabel { font-size: 30px; font-family: Dosis; background-color: #EFD6AC; padding: 10px}
+        QLabel { font-size: 30px; font-family: Dosis; background-color: #80FFE8; padding: 10px}
     """)
 
     buttonFrame.setStyleSheet("""
@@ -8,10 +10,25 @@ def apply_styles(titleFrame, buttonFrame, workspaceFrame):
             margin-top: 45px;
             margin-bottom: 45px;
             padding: 5px;
+            
         }
+                              
+        QFrame {
+                              background-color: #83BCFF
+        }
+                              
+        
                               
     """)
 
     workspaceFrame.setStyleSheet("""
-        QFrame { background: #e0e0e0; }
+        QFrame { background: #97D2FB; }
+    """)
+
+def apply_textBoxButton_styles(textBoxButton):
+    textBoxButton.setStyleSheet("""
+        QPushButton {
+                                background-color: #86CB92;
+                                font-weight: bold;
+        }
     """)
