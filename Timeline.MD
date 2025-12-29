@@ -59,3 +59,6 @@ Previous errors resolved. Scrolling, Text Box generating, and Image generating f
 29.12.2025 
 
 Font functionality added.
+Icons added for buttons.
+
+For now, try to make the options panel into a multi-tab setup.

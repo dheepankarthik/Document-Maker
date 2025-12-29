@@ -1,8 +1,8 @@
 import sys
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLabel, QGraphicsView
 import PyQt6
-from PySide6.QtGui import QShortcut, QKeySequence
-from PySide6.QtCore import Qt
+from PySide6.QtGui import QShortcut, QKeySequence, QIcon
+from PySide6.QtCore import Qt, QSize
 import ui
 import styles
 import text_tools
@@ -37,8 +37,18 @@ buttonLabel = QLabel("Options")
 
 buttonLabel.setAlignment(Qt.AlignCenter)
 
-textButton = QPushButton("Add Text")
-imageButton = QPushButton("Add Image")
+textButton = QPushButton()
+textButton.setIcon(QIcon("icons/textBox.svg"))
+textButton.setIconSize(QSize(24, 24))
+textButton.setFixedSize(36, 36)
+
+
+imageButton = QPushButton()
+
+imageButton.setIcon(QIcon("icons/image.svg"))
+imageButton.setIconSize(QSize(24, 24))
+imageButton.setFixedSize(36, 36)
+
 
 styles.apply_textBoxButton_styles(textBoxButton=textButton)
 
@@ -46,7 +56,7 @@ styles.apply_textBoxButton_styles(textBoxButton=textButton)
 
 for element in [buttonLabel, textButton, imageButton]:
     element.setFont(vendSansFont)
-    buttonLayout.addWidget(element)
+    buttonLayout.addWidget(element, alignment=Qt.AlignmentFlag.AlignCenter)
 
 
 

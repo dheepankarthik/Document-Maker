@@ -9,7 +9,7 @@ def apply_styles(titleFrame, buttonFrame, workspaceFrame):
         QPushButton {
             margin-top: 45px;
             margin-bottom: 45px;
-            padding: 5px;
+            padding: 10px;
             
         }
                               
@@ -28,7 +28,6 @@ def apply_styles(titleFrame, buttonFrame, workspaceFrame):
 def apply_textBoxButton_styles(textBoxButton):
     textBoxButton.setStyleSheet("""
         QPushButton {
-                                background-color: #86CB92;
                                 font-weight: bold;
         }
     """)

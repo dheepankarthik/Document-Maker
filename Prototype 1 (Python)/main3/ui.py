@@ -34,9 +34,8 @@ def build_ui(window):
     buttonFrame = QFrame()
     workspaceFrame = QFrame()
 
-    bodyLayout.addWidget(buttonFrame, stretch=4)
-    bodyLayout.addWidget(workspaceFrame, stretch=12)
-
+    bodyLayout.addWidget(buttonFrame, stretch=2)
+    bodyLayout.addWidget(workspaceFrame, stretch=14)
     mainLayout.addWidget(titleFrame)
     mainLayout.addWidget(bodyFrame)
 
