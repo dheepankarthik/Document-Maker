@@ -55,3 +55,7 @@ Tried to modularize main3.py, but app is crashing. Need to figure out the errors
 28.12.2025
 
 Previous errors resolved. Scrolling, Text Box generating, and Image generating functionalities completed. Go signal for print utility and graph widget option. Need to figure out prompts for text box settings. 
+
+29.12.2025 
+
+Font functionality added.
