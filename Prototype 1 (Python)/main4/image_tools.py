@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QFileDialog, QGraphicsPixmapItem, QGraphicsView
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
-import globals
+import globals, pages
 
 current_image_item = None
 
@@ -35,12 +35,23 @@ def add_image():
     image_item.setPos(100, 100)
 
     globals.workspaceScene.addItem(image_item)
+    pages.ensure_page_for_item(image_item)
+
+    def on_item_change(change, value):
+        if change == QGraphicsPixmapItem.ItemPositionHasChanged:
+            pages.ensure_page_for_item(image_item)
+        return QGraphicsPixmapItem.itemChange(image_item, change, value)
+
+    image_item.itemChange = on_item_change
+
 
     # Select the new image by default
     globals.workspaceScene.clearSelection()
     image_item.setSelected(True)
     current_image_item = image_item
     update_scene_size(image_item)
+
+
 
 def update_scene_size(item):
     """Ensure the scene is large enough to contain the item."""
@@ -75,3 +86,5 @@ def wheel_event(event):
     else:
         # Default scroll if no image selected
         QGraphicsView.wheelEvent(globals.workspaceCanvas, event)
+
+    pages.ensure_page_for_item(current_image_item)

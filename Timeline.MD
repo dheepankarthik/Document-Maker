@@ -62,3 +62,13 @@ Font functionality added.
 Icons added for buttons.
 
 For now, try to make the options panel into a multi-tab setup.
+
+31.12.2025
+
+The modular version has been renamed to main4/.
+
+The use of PyQt is working for majority of the workings, but some important functionalities such as infinite pages have proven to be difficult to achieve, owing to the complexity of the programs that make up the Document Maker found in main4. 
+
+I hereby declare that the use of Python for the project is hereby on hold.
+
+<!-----------------Python and main4/main.py is hereby on hold----------------------->

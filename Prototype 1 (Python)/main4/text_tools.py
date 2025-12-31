@@ -5,6 +5,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QRect
 from PySide6.QtGui import QColor, QFont, QPen
 import globals
+
+import pages
 import styles
 
 def add_text_box():
@@ -34,6 +36,8 @@ def add_text_box():
     text_item.setPos(50, 50)
 
     globals.workspaceScene.addItem(text_item)
+    pages.ensure_page_for_item(text_item)
+    
     text_item.setFocus()
     update_scene_size(text_item)
 
